@@ -1,0 +1,54 @@
+Springboot+swagger2
+    swagger2是一个在线文档生成工具。
+1、引入swagger2相关依赖。
+<dependency>
+    <groupId>io.springfox</groupId>
+    <artifactId>srpingfox-swagger2<artifactId>
+    <version>2.7.0</version>
+</dependency>
+<dependency>
+    <groupId>io.springfox</groupId>
+    <artifactId>springfox-swagger-ui</artifactId>
+    <version>2.7.0</version>
+</dependency>
+2、配置swagger2
+@Configuration
+@EnableSwagger2
+public class Swagger2Config extends WebMvcConfigurer{
+    @Value("${swagger.enable}")//可在配置文件中定义一个开关
+    private Boolean swaggerEnabled;
+
+    @Bean
+    public Docket createRestApi(){
+        return new Docket(DocumentationType.SWAGGER2)
+            .apiInfo()
+            .eanble(swaggerEnabled)
+            .select()
+            .apis(RequestHandlerSelectors.any())
+            .paths(PathSelectors.any())
+            .build();
+    }
+
+    private ApiInfo apiinfo(){
+        return ApiInfoBuilder()
+            .title("SpringBoot-Swagger2集成项目)
+            .description("springboot|swagger2)
+            .contact(new Contack("liyanan","https://www.baidu.com","ssss@qq.com")
+            .version("1.0.0")
+            .build();
+    }
+}
+
+3、使用swagger2的相关注解，对controller及其方法、方法参数、模型类进行描述，以用来生成文档。相关注解说明：
+（1）、@Api(value="",tags="",description="")
+用于类上，表示对类的描述。value不会对文档的生成产生影响，可以不用，tags表示对该类的方法进行分组。description已被标记为deprecation。
+（2）、@ApiOperation(value="",notes="")
+用于方法上，value是对方法的简单说明，notes可以是对方法进一步的说明。
+（3）、@ApiParam(name="",value="",required=true/false)
+用于方法参数上，name表示传入的参数名，value是对参数的描述，required是否必传
+（4）、@ApiImplicitParams,@ApiImplicitParam(name="",value="",paramType="",required=true/false)
+用于方法上，对方法参数的单独说明，name表示参数名，value参数的描述，paramType传入参数的类型：query、body、path、form、header.    query和form中的参数需要@RequestParam获取，body要用@RequestBody获取，path要用@PathVariable获取，header要用@RequestHeader获取。
+（5）、@ApiModel(value="",description="")
+用于模型类上，value可以是类的标识，description是类的描述
+@ApiModelProperty(name="",value="",example="",required=true/false)
+用于模型类的属性或方法上，name属性名，value对属性的描述，example赋值样例，required是否必须。
