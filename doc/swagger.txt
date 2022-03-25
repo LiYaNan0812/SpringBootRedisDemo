@@ -52,3 +52,4 @@ public class Swagger2Config extends WebMvcConfigurer{
 用于模型类上，value可以是类的标识，description是类的描述
 @ApiModelProperty(name="",value="",example="",required=true/false)
 用于模型类的属性或方法上，name属性名，value对属性的描述，example赋值样例，required是否必须。
+4、访问http://localhost:port/swagger-ui.html可以查看在线文档。
