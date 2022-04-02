@@ -1,5 +1,6 @@
 package com.neusoft.test;
 
+import io.lettuce.core.output.KeyStreamingChannel;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -7,8 +8,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import redis.clients.jedis.Jedis;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.function.Consumer;
 
 /**
  * @Auth lyn
@@ -78,6 +79,23 @@ public class JedisTest {
         System.out.println(jedis.sismember("loverset","xiangjiahuan"));
         System.out.println("让系统决定今晚和谁共度良宵"+jedis.srandmember("loverset",2));
         System.out.println("后宫有几人"+jedis.scard("loverset"));
+    }
+
+    public interface LabdaTest{
+        abstract  void sorta(List<Integer> list,Comparator<Integer> c);
+    }
+    @Test
+    public void test(){
+        List<Integer> list = new ArrayList<>();
+        list.add(10);
+        list.add(2);
+        list.add(7);
+        list.add(20);
+        list.add(5);
+        Consumer<Integer> consumer = System.out::println;;
+        list.forEach(System.out::println);
+        LabdaTest labdaTest = Collections::sort;
+        labdaTest.sorta(list,(a,b)-> {return a-b;});
     }
 
 }
